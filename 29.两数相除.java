@@ -15,19 +15,24 @@ class Solution {
             ? -1 : 1;
 
         int quotient = 0; // 商
-        int cumulate = 0; // 临时积
 
-        dividend = Math.abs(dividend);
-        divisor = Math.abs(divisor);
+        dividend = -Math.abs(dividend);
+        divisor = -Math.abs(divisor);
 
-        while (true) {
-            cumulate += divisor;
-            if (cumulate <= dividend) {
-                quotient += 1;
-            } else {
-                break;
+        // 采用二分法的思想，dividend每次减去2^n个divisor（尽可能多），
+        // 同时reslut每次加2^n
+        while (dividend <= divisor) {
+			int cumulate = divisor;
+			int c = 1;
+			while(dividend - cumulate <= cumulate) {
+				cumulate = cumulate << 1;
+				c = c << 1;
             }
-        }
+            
+			dividend -= cumulate;
+			quotient += c;
+		}
+
         return quotient * k;
     }
 }
