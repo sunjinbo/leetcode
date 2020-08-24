@@ -16,7 +16,7 @@ class Solution {
 
         int[] result = new int[2];
         for (int i = 0; i < nums.length; ++i) {
-            int minus = target - nums[i];
+            int minus = target - nums[i]; 
             if (map.containsKey(minus) && i != map.get(minus)) {
                 result[0] = i;
                 result[1] = map.get(minus);
