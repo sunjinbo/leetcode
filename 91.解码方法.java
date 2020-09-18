@@ -9,34 +9,37 @@ import java.awt.List;
 // @lc code=start
 class Solution {
     public int numDecodings(String s) {
-        List<Integer> leaf = new ArrayList<>();
+        // 首先排除给定字符串的特殊情况
+        if (s == null || s.length() == 0 || s.charAt(0) == '0') {
+            return 0;
+        }
+
+        // 定义DP标记列表
+        int[] dp = new int[s.length() + 2];
+        dp[0] = 1;
+        dp[1] = 1;
+        dp[2] = 1;
         
-        for (int i = 0; i < s.length(); ++i) {
-            int integer = Integer.parseInt(s.charAt(i) + "");
-            if (i == 0 && integer > 0) {
-                leaf.add(integer);
-            } else {
-                for (int j = leaf.size() - 1; j >= 0; --j) {
-                    int n = leaf.get(j);
-                    if (integer == 0) {
-                        if (n == 1 || n == 2) {
-                            leaf.set(j, n * 10 + integer);
-                        } else {
-                            leaf.remove(j);
-                        }
-                    } else {
-                        if (n == 1 || (n == 2 && integer <= 6)) {
-                            leaf.set(j, n * 10 + integer);
-                            leaf.add(integer);
-                        } else {
-                            leaf.set(j, integer);
-                        }
-                    }
+        // for循环遍历给定n项数值，
+        // 利用状态转移公式得到相应的DP标记列表
+        for (int i = 1; i < s.length(); ++i) {
+            // 解码方法的状态转移公式略显复杂
+            int n = i + 2;
+            if (s.charAt(i) == '0') {
+                if (s.charAt(i-1) == '1' || s.charAt(i-1) == '2') {
+                    dp[n] = dp[n-2];
+                } else {
+                    return 0;
                 }
+            } else if (s.charAt(i-1) == '1' 
+            || (s.charAt(i-1) == '2' && (s.charAt(i) >= '1' && s.charAt(i) <= '6'))) {
+                dp[n] = dp[n-1] + dp[n-2];
+            } else {
+                dp[n] = dp[n-1];
             }
         }
-        
-        return leaf.size();
+
+        return dp[s.length()+1];
     }
 }
 // @lc code=end
