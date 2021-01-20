@@ -9,14 +9,17 @@ import java.util.List;
 
 // @lc code=start
 class Solution {
+    private List<List<String>> results = new ArrayList<>();
+
     public List<List<String>> solveNQueens(int n) {
         Chessboard chessboard = new Chessboard(n);
         backtrack(chessboard, 0);
-        return chessboard.getResult();
+        return results;
     }
 
     void backtrack(Chessboard chessboard, int row) {
-        if (chessboard.getN() == row) {
+        if (chessboard.getN() <= row) {
+            results.add(chessboard.getResult());
             return;
         }
 
@@ -36,6 +39,7 @@ class Solution {
         private String[][] chessboard;
 
         public Chessboard(int n) {
+            this.n = n;
             chessboard = new String[n][n];
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < n; ++j) {
@@ -67,7 +71,7 @@ class Solution {
                     }
                 }
             }
-    
+
             // 判断斜线上是否已经有Q
             for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; --i, --j) {
                 if (chessboard[i][j] == "Q") {
@@ -84,14 +88,14 @@ class Solution {
             return true;
         }
 
-        public List<List<String>> getResult() {
-            List<List<String>> result = new ArrayList<List<String>>();
+        public List<String> getResult() {
+            List<String> result = new ArrayList<>();
             for (int i = 0; i < n; ++i) {
-                List<String> r = new ArrayList<String>();
+                StringBuilder sb = new StringBuilder();
                 for (int j = 0; j < n; ++j) {
-                    r.add(chessboard[i][j]);
+                    sb.append(chessboard[i][j]);
                 }
-                result.add(r);
+                result.add(sb.toString());
             }
             return result;
         }
