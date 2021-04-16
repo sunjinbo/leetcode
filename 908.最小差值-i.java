@@ -7,10 +7,12 @@
 // @lc code=start
 class Solution {
     public int smallestRangeI(int[] A, int K) {
-        if (A.length == 1) return 0;
-        Arrays.sort(A);
-        int diff = (A[A.length - 1] - K) - (A[0] + K);
-        return diff > 0 ? diff : 0;
+        int min = A[0], max = A[0];
+        for (int x: A) {
+            min = Math.min(min, x);
+            max = Math.max(max, x);
+        }
+        return Math.max(0, max - min - 2*K);
     }
 }
 // @lc code=end
