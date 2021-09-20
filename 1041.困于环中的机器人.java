@@ -14,8 +14,7 @@ class Solution {
         int dx = 0;
         int dy = 1;
 
-        int cnt = 8;
-        while(cnt-- > 0) {
+        while(true) {
             for (int i = 0; i < instructions.length(); ++i) {
                 switch (instructions.charAt(i)) {
                     case 'G': // 前进直走 1 个单位
@@ -55,12 +54,15 @@ class Solution {
                 }
             }
 
+            // 一次指令之后，只有(x,y)不是原点，并且方向和原来的方向一致，最后才回不去
             if (x == 0 && y == 0) {
                 return true;
             }
-        }
 
-        return false;
+            if (dx == 0 && dy == 1) {
+                return false;
+            }
+        }
     }
 }
 // @lc code=end
