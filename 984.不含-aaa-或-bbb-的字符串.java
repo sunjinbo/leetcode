@@ -7,29 +7,35 @@
 // @lc code=start
 class Solution {
     public String strWithout3a3b(int A, int B) {
-        StringBuilder ans = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-        while (A > 0 || B > 0) {
-            boolean writeA = false;
-            int L = ans.length();
-            if (L >= 2 && ans.charAt(L-1) == ans.charAt(L-2)) {
-                if (ans.charAt(L-1) == 'b')
-                    writeA = true;
+        while (A > 0 && B > 0) {
+            if (A > B) {
+                sb.append("aab");
+                A -= 2;
+                B -= 1;
+            } else if (B == A) {
+                sb.append("ab");
+                A -= 1;
+                B -= 1;
             } else {
-                if (A >= B)
-                    writeA = true;
-            }
-
-            if (writeA) {
-                A--;
-                ans.append('a');
-            } else {
-                B--;
-                ans.append('b');
+                sb.append("bba");
+                A -= 1;
+                B -= 2;
             }
         }
 
-        return ans.toString();
+        while (A > 0) {
+            sb.append("a");
+            A -= 1;
+        }
+
+        while (B > 0) {
+            sb.append("b");
+            B -= 1;
+        }
+
+        return sb.toString();
     }
 }
 // @lc code=end
