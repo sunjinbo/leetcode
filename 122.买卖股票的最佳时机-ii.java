@@ -14,11 +14,12 @@ class Solution {
         for (int i = 1; i < prices.length; i++) {
             if (prices[i] <= prices[i - 1]) {
                 totalMax += max;
+                // 重置状态
                 dp[i] = prices[i];
                 max = 0;
             } else {
-                dp[i] = (dp[i - 1] < prices[i]) ? dp[i - 1] : prices[i];
-                max = (prices[i] - dp[i]) > max ? prices[i] - dp[i] : max;
+                dp[i] = Math.min(dp[i - 1], prices[i]);
+                max = Math.max(max, prices[i] - dp[i]);
             }
         }
 
