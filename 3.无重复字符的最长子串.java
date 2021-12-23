@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /*
  * @lc app=leetcode.cn id=3 lang=java
  *
@@ -7,21 +9,16 @@
 // @lc code=start
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        if (s == null) return 0;
+        HashMap<Character, Integer> map = new HashMap<>();
         int max = 0;
-        String temp = "";
-        for (int i = 0; i < s.length(); ++i) {
-            temp = "";
-            for (int j = i; j < s.length(); ++j) {
-                if (temp.contains(s.charAt(j) + "")) {
-                    break;
-                } else {
-                    temp += s.charAt(j);
-                }
+        int left = 0;
+        for (int right = 0; right < s.length(); ++right) {
+            char ch = s.charAt(right);
+            if (map.containsKey(ch)) {
+                left = Math.max(left, map.get(ch) + 1);
             }
-            if (max < temp.length()) {
-                max = temp.length();
-            }
+            max = Math.max(max, right - left + 1);
+            map.put(ch, right);
         }
         return max;
     }
