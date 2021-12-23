@@ -15,44 +15,51 @@
  */
 class Solution {
     public ListNode reverseBetween(ListNode head, int m, int n) {
-        // 链表为空或者个数为1，直接返回该链表
-        if (head == null
-                || (head != null && head.next == null)) return head;
+        // 链表为空
+        if (head == null) return head;
+        // 链表长度为1
+        if (head != null && head.next == null) return head;
 
-        int i = 1;
-        ListNode next = head;
-        ListNode cursor = null, start = null, end = null,
-                tempHead = null;
-        while (next != null) {
-            cursor = next;
-            next = next.next;
+        ListNode tempHead = new ListNode(-1);
+        tempHead.next = head;
 
-            if (i < m - 1) {
-                // continue
-            } else if (i == m - 1) {
-                start = cursor;
-            } else if (i == m) {
-                tempHead = cursor;
-                end = cursor;
-            } else if (i > m && i < n) {
-                cursor.next = tempHead;
-                tempHead = cursor;
-            } else if (i == n) {
-                cursor.next = tempHead;
-                tempHead = cursor;
-                if (start != null) {
-                    start.next = tempHead;
-                } else {
-                    head = tempHead; // 临时链表前面没有节点，直接有head指针指向临时链表
-                }
-                end.next = next;
-                break;
-            }
+        // 找到反转链表的左侧节点
+        ListNode cur = tempHead;
+        int i = 0;
+        for (; i < m - 1; ++i) {
+            cur = cur.next;
+        }
+        ListNode leftNode = cur;
 
-            i += 1;
+        // 找到反转链表的右侧节点
+        for (; i < n; ++i) {
+            cur = cur.next;
+        }
+        ListNode rightNode = cur.next;
+
+        // 切断列表
+        ListNode reverseNode = leftNode.next;
+        leftNode.next = null;
+        cur.next = null;
+
+        // 反转列表并重新连接列表
+        leftNode.next = reverse(reverseNode);
+        reverseNode.next = rightNode;
+
+        return tempHead.next;
+    }
+
+    public ListNode reverse(ListNode head) {
+        ListNode previous = null;
+        ListNode current = head;
+        while (current != null) {
+            ListNode next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
         }
 
-        return head;
+        return previous;
     }
 }
 // @lc code=end
