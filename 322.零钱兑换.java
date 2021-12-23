@@ -24,6 +24,8 @@ class Solution {
             }
         }
 
+        // 如果 dp[amount] 是 amount + 1 ，
+        // 代表没找到组合结果，否则返回组合成 amount 需要的最少硬币数 dp[amount]
         return dp[amount] >= amount + 1 ? -1 : dp[amount];
     }
 }
