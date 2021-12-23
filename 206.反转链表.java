@@ -26,8 +26,6 @@ class Solution {
             previous = current;
             current = next;
         }
-
-        return previous;
     }
 }
 // @lc code=end
