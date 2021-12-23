@@ -37,6 +37,7 @@ class Solution {
             }
 
             List<Integer> curList = ans.get(level - 1);
+            
             if ((level % 2) == 1) {
                 curList.add(node.val);
             } else {
